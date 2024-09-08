@@ -1,4 +1,34 @@
-# buildinginstructions.js
+# buildinginstructions.js (Mod)
+
+This is my mod of [LasseD's buildinginstruction.js](https://github.com/LasseD/buildinginstructions.js/), while trying to:
+* Sync it with [LDraw Model Viewer](https://github.com/sdneon/LDraw_Model_Viewer) codes (which is based on the former) , so as to make further enhancements.
+* Find out if either supports flex/bent elements (like tubes) - sadly not.
+  * At least not for LeoCAD's SYNTH directive.
+  * Though there's a `models/ldcad_rubber_bands_test.mpd` sample with rubber bands using '!LDCAD PATH_POINT' & 'PATH_SKIN' directives. To be investigated.
+
+Thanks to both LasseD & LDraw et al for this awesome Lego tool!
+
+## Changes
+* `sample_view.htm` & `sample_instructions.htm` now accept file path in query: `f=<path_to_model_file>`
+  * URL examples:
+    * http://localhost:8080/sample_view.htm?f=models/pyramid5.ldr
+    * http://localhost:8080/sample_instructions.htm?f=models/pyramid5.ldr&step=3
+  * Modded my LDraw Model Viewer [server](https://github.com/sdneon/LDraw_Model_Viewer) to serve buildinginstruction.js' content and provide Lego parts to it.
+    * Place buildinginstruction.js content in `<LDraw_Model_Viewer>/public_bi`, and run the server `ldr.ds`.
+    * Thus, the folders for 'Standard File Structure' are no longer needed.
+* Add buttons: go to 1st step, go to last step.
+* Add some tooltip texts.
+
+# Dev Notes
+* js/LDRLoader.js - modified to accept returned JSON parts data from LDR server, and process them as usual.
+* js/LDRInstructionsManager.js, etc. - add new buttons & tooltips.
+
+### Known Issues
+* Does NOT support:
+  * [!COLOUR directive](https://ldraw.org/article/299.html) - temporarily added bypass in codes to avoid console dump of countless !COLOUR complains.
+  * Flex elements and '!LEOCAD SYNTH CONTROL_POINT' directives - used to specify the end points (position and orientation) of the flex element, thus bend the element.
+
+# Introduction (Original)
 
 Render LEGO building instructions in the browser using [three.js](https://github.com/mrdoob/three.js) and the [LDraw parts library](http://www.ldraw.org).
 
@@ -10,21 +40,21 @@ See this project visualized on [BrickHub.org](https://brickhub.org)
 
 After copying the files in this repository, you can view:
 
-sample_view.htm for how to set up a render. This sample is less than 100 lines and provides a good starting point that is easy to grasp.
+**sample_view.htm** for how to set up a render. This sample is less than 100 lines and provides a good starting point that is easy to grasp.
 
-sample_instructions.htm for how to set up building instructions, including options for personalization and step editing. This is how instructions appear on BrickHub.org.
+**sample_instructions.htm** for how to set up building instructions, including options for personalization and step editing. This is how instructions appear on BrickHub.org.
 
-sample_physical.htm shows the 'physical' renderer where StandardMaterial from three.js is used for a more realistic look.
+**sample_physical.htm** shows the 'physical' renderer where StandardMaterial from three.js is used for a more realistic look.
 
 ![Sample image of a the physical renderer generated on the fly using buildinginstructions.js](https://brickhub.org/i/data/220/220.png)
 
-sample_partslist.htm demonstrates how to display parts lists. The example has two modes (list and grid) with additional part information when in list view and clicking small images result in larger previews with additional information. This example follows how parts lists are displayed on BrickHub.org.
+**sample_partslist.htm** demonstrates how to display parts lists. The example has two modes (list and grid) with additional part information when in list view and clicking small images result in larger previews with additional information. This example follows how parts lists are displayed on BrickHub.org.
 
-sample_part.htm provides a break down of a single part. Points highlight where lines, triangles and quads are positioned. This can be used to inspect new or existing LDraw parts.
+**sample_part.htm** provides a break down of a single part. Points highlight where lines, triangles and quads are positioned. This can be used to inspect new or existing LDraw parts.
 
-sample_previews.htm shows how to use LDRPreviews.js to show preview icons on any page.
+**sample_previews.htm** shows how to use LDRPreviews.js to show preview icons on any page.
 
-sample_functions.htm shows how to perform operations on LDraw models, such as changing all parts of a certain color, and applying improvements toward OMR-compliance.
+**sample_functions.htm** shows how to perform operations on LDraw models, such as changing all parts of a certain color, and applying improvements toward OMR-compliance.
 
 ### Standard File Structure
 

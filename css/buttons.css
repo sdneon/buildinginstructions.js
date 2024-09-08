@@ -24,7 +24,7 @@
   height: 200px;
   visibility: hidden;
 }
-#next_button, #prev_button {
+#last_button, #next_button, #prev_button, #first_button {
   width: 100px;
   height: 100px;
 }
@@ -134,7 +134,7 @@ svg:hover {
     width: 200px;
     height: 200px;
 }
-#prev_button svg, #top_buttons svg, #camera_buttons svg, #next_button svg {
+#prev_button svg, #first_button svg, #top_buttons svg, #camera_buttons svg, #next_button svg, #last_button svg {
     stroke: black;
     width: 100px;
     height: 100px;  
@@ -152,7 +152,7 @@ svg:hover {
   top: 0;
   background-color: white;
 }
-#preview_border #prev_button, #preview_parent #prev_button {
+#preview_border #prev_button, #preview_border #first_button, #preview_parent #prev_button, #preview_parent #first_button {
   position: absolute;
   left: 0;
   bottom: 0;
@@ -178,11 +178,11 @@ line, polygon, rect, polyline, path, circle, ellipse {
   #top_buttons {
     height: 12vw;
   }
-  #prev_button svg, #top_buttons svg, #next_button svg, #optionsButton, #editButton, #top_buttons .top_button, #camera_buttons svg, #next_button, #reset_camera_button {
+  #prev_button svg, #first_button svg, #top_buttons svg, #next_button svg, #last_button svg, #optionsButton, #editButton, #top_buttons .top_button, #camera_buttons svg, #next_button, #last_button, #reset_camera_button {
     width: 12vw;
     height: 12vw;
   }
-  #prev_button, #next_button {
+  #prev_button, #first_button, #next_button, #last_button {
     width: 12vw;
     height: 12vw;
   }

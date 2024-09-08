@@ -10,7 +10,7 @@ LDR.SVG.makeLeftArrow = function(withCircle) {
 
     let g = document.createElementNS(LDR.SVG.NS, 'g');
     ret.appendChild(g);
-    
+
     let pts = "20,50 50,20 50,35 80,35 80,65 50,65 50,80";
     let poly = LDR.SVG.makePolygon(pts);
     g.appendChild(poly);
@@ -20,7 +20,27 @@ LDR.SVG.makeLeftArrow = function(withCircle) {
     return ret;
 }
 
-// Right arrow used to step forward one step. 
+// "|<-" arrow used to go back to first step:
+LDR.SVG.makeDoubleLeftArrow = function(withCircle) {
+    let ret = document.createElementNS(LDR.SVG.NS, 'svg');
+    ret.setAttribute("viewBox", "0 0 100 100");
+
+    let g = document.createElementNS(LDR.SVG.NS, 'g');
+    ret.appendChild(g);
+
+    let pts = "10,50 50,20 50,35 70,35 70,65 50,65 50,80";
+    let poly = LDR.SVG.makePolygon(pts);
+    g.appendChild(poly);
+    if(withCircle) {
+        g.appendChild(LDR.SVG.makeCircle(50, 50, 49));
+    }
+    pts = "0,20 10,20 10,80 0,80";
+    poly = LDR.SVG.makePolygon(pts);
+    g.appendChild(poly);
+    return ret;
+}
+
+// Right arrow used to step forward one step.
 // Double size when 'large===true' because it is the primarily-used button:
 LDR.SVG.makeRightArrowLarge = function() {
     let ret = document.createElementNS(LDR.SVG.NS, 'svg');
@@ -29,7 +49,7 @@ LDR.SVG.makeRightArrowLarge = function() {
 
     let g = document.createElementNS(LDR.SVG.NS, 'g');
     ret.appendChild(g);
-    
+
     let pts = "160,100 100,40 100,70 40,70 40,130 100,130 100,160";
     let poly = LDR.SVG.makePolygon(pts);
     g.appendChild(poly);
@@ -52,13 +72,32 @@ LDR.SVG.makeRightArrow = function(withCircle) {
     }
     return ret;
 }
+LDR.SVG.makeDoubleRightArrow = function(withCircle) { //SD: "->|" arrow to go to last step
+    let ret = document.createElementNS(LDR.SVG.NS, 'svg');
+    ret.setAttribute("class", "next_normal");
+    ret.setAttribute("viewBox", "0 0 100 100");
+
+    let g = document.createElementNS(LDR.SVG.NS, 'g');
+    ret.appendChild(g);
+
+    let pts = "70,50 40,20 40,35 20,35 20,65 40,65 40,80";
+    let poly = LDR.SVG.makePolygon(pts);
+    g.appendChild(poly);
+    if(withCircle) {
+        g.appendChild(LDR.SVG.makeCircle(50, 50, 49));
+    }
+    pts = "70,20 80,20 80,80 70,80";
+    poly = LDR.SVG.makePolygon(pts);
+    g.appendChild(poly);
+    return ret;
+}
 LDR.SVG.makeThinArrow = function(svg, w, alsoLeft = false) {
     svg.appendChild(LDR.SVG.makeLine(-w, 0, w, 0, true));
     svg.appendChild(LDR.SVG.makeLine(w/2, w/2, w, 0, true));
     svg.appendChild(LDR.SVG.makeLine(w/2, -w/2, w, 0, true));
     if(alsoLeft) {
-	svg.appendChild(LDR.SVG.makeLine(-w/2, w/2, -w, 0, true));
-	svg.appendChild(LDR.SVG.makeLine(-w/2, -w/2, -w, 0, true));
+    svg.appendChild(LDR.SVG.makeLine(-w/2, w/2, -w, 0, true));
+    svg.appendChild(LDR.SVG.makeLine(-w/2, -w/2, -w, 0, true));
     }
 }
 LDR.SVG.makeCheckMark = function() {
@@ -93,14 +132,14 @@ LDR.SVG.makeZoom = function(verticalLine, mult) {
     ret.setAttribute("viewBox", "0 0 " + (mult*50) + " " + (50*mult));
 
     let g = document.createElementNS(LDR.SVG.NS, 'g');
-    ret.appendChild(g);    
+    ret.appendChild(g);
 
     g.appendChild(LDR.SVG.makeLine(mult*10, mult*25, mult*40, mult*25));
     if(verticalLine)
-	g.appendChild(LDR.SVG.makeLine(mult*25, mult*10, mult*25, mult*40));
+    g.appendChild(LDR.SVG.makeLine(mult*25, mult*10, mult*25, mult*40));
     // Border
     g.appendChild(LDR.SVG.makeCircle(mult*25, mult*25, mult*25-1));
-    return ret;	
+    return ret;
 }
 
 LDR.SVG.makeCamera = function(x, y, w) {
@@ -108,24 +147,24 @@ LDR.SVG.makeCamera = function(x, y, w) {
     ret.setAttribute("viewBox", "0 0 " + w + " " + w);
 
     ret.appendChild(LDR.SVG.makeRect(x-w/3, y-w/6, w/2, w/3));
-    
-    let pts = (x-w/3+w/2) + "," + (y-w/10) + " " + 
-	(x+w/3) + "," + (y-w/6) + " " + 
-	(x+w/3) + "," + (y+w/6) + " " + 
-	(x-w/3+w/2) + "," + (y+w/10);	    
+
+    let pts = (x-w/3+w/2) + "," + (y-w/10) + " " +
+    (x+w/3) + "," + (y-w/6) + " " +
+    (x+w/3) + "," + (y+w/6) + " " +
+    (x-w/3+w/2) + "," + (y+w/10);
     ret.appendChild(LDR.SVG.makePolygon(pts));
-    
+
     // Leg:
     ret.appendChild(LDR.SVG.makeRect(x-w/8, y+w/6, w/10, w/4));
-    
+
     // Tape:
-    ret.appendChild(LDR.SVG.makeCircle(x-w/5, y, w/14));    
+    ret.appendChild(LDR.SVG.makeCircle(x-w/5, y, w/14));
     ret.appendChild(LDR.SVG.makeCircle(x+w/24, y, w/14));
     ret.appendChild(LDR.SVG.makeLine(x-w/5, y-w/14, x+w/24, y-w/15));
 
     // Border
     ret.appendChild(LDR.SVG.makeCircle(x, y+5, w/2.1));
-    
+
     return ret;
 }
 
@@ -155,8 +194,8 @@ LDR.SVG.makeListIcon = function () {
     ret.setAttribute('viewBox', '0 0 100 100');
     let startY = 19;
     for(let i = 0; i < 5; i++) {
-	let line = LDR.SVG.makeLine(10, startY+i*16, 90, startY+i*16);
-	ret.appendChild(line);
+    let line = LDR.SVG.makeLine(10, startY+i*16, 90, startY+i*16);
+    ret.appendChild(line);
     }
     return ret;
 }
@@ -166,10 +205,10 @@ LDR.SVG.makeBigIconsIcon = function () {
     ret.setAttribute('viewBox', '0 0 100 100');
     for(let x = 0; x < 2; x++) {
       for(let y = 0; y < 2; y++) {
-	  let rect = LDR.SVG.makeRect(x*46 + 7, y*46 + 7, 40, 40);
-	  rect.setAttribute('rx', '4');
-	  rect.setAttribute('ry', '4');
-	  ret.appendChild(rect);
+      let rect = LDR.SVG.makeRect(x*46 + 7, y*46 + 7, 40, 40);
+      rect.setAttribute('rx', '4');
+      rect.setAttribute('ry', '4');
+      ret.appendChild(rect);
       }
     }
     return ret;
@@ -211,7 +250,7 @@ LDR.SVG.makeTriangle = function(sideX, pointX) {
 LDR.SVG.makeLine = function(x1, y1, x2, y2, forceStroke) {
     let ret = document.createElementNS(LDR.SVG.NS, 'line');
     if(forceStroke) {
-	ret.setAttribute('stroke', 'black');
+    ret.setAttribute('stroke', 'black');
     }
     ret.setAttribute('x1', x1);
     ret.setAttribute('y1', y1);
@@ -240,7 +279,7 @@ LDR.SVG.makeRect = function(x, y, w, h, fill, color) {
         ret.setAttribute('fill', 'none');
     }
     if(color) {
-	ret.setAttribute('stroke', color);
+    ret.setAttribute('stroke', color);
     }
     return ret;
 }
@@ -256,7 +295,7 @@ LDR.SVG.makeRoundRect = function(x, y, w, h, r) {
 LDR.SVG.makeCircle = function(x, y, r, forceStroke) {
     let ret = document.createElementNS(LDR.SVG.NS, 'circle');
     if(forceStroke)
-	ret.setAttribute('stroke', 'black');
+    ret.setAttribute('stroke', 'black');
     ret.setAttribute('cx', x);
     ret.setAttribute('cy', y);
     ret.setAttribute('r', r);
@@ -282,7 +321,7 @@ LDR.SVG.makeGear = function(x, y, r, t, svg) {
     svg.appendChild(LDR.SVG.makeCrossAxleHole(x, y));
     // Circle if big enough:
     if(r > 20) {
-	svg.appendChild(LDR.SVG.makeCircle(x, y, r*0.55));
+    svg.appendChild(LDR.SVG.makeCircle(x, y, r*0.55));
     }
 }
 
@@ -292,16 +331,16 @@ LDR.SVG.makeGearCrown = function(x, y, ro, ri, ao, ai, t) {
     let angles = [a, ai, a, ao];
     let radii = [ri, ri, ro, ro];
     for(let i = 0; i < t; i++) {
-	let A = Math.PI*2/t*i;
-	for(let j = 0; j < 4; j++) {
-	    A += angles[j];
-	    pts += "L" + (x+radii[j]*Math.cos(A)) + " " + (y+radii[j]*Math.sin(A)) + " ";
-	}
+    let A = Math.PI*2/t*i;
+    for(let j = 0; j < 4; j++) {
+        A += angles[j];
+        pts += "L" + (x+radii[j]*Math.cos(A)) + " " + (y+radii[j]*Math.sin(A)) + " ";
+    }
     }
     pts += "Z";
     let ret = document.createElementNS(LDR.SVG.NS, 'path');
     ret.setAttribute('d', pts);
-    ret.setAttribute('fill', 'none');    
+    ret.setAttribute('fill', 'none');
     return ret;
 }
 
@@ -309,13 +348,13 @@ LDR.SVG.makeCrossAxleHole = function(x, y) {
     let d = 3;
     let D = 1.5*d;
     let pts = "M" + (x+d) + " " + (y-d-D/2) +
-	" v"  + d + " h"  + d + " v"  + D +
-	" h-" + d + " v"  + d + " h-" + D + 
-	" v-" + d + " h-" + d + " v-" + D + 
-	" h"  + d + " v-" + d + " Z";
+    " v"  + d + " h"  + d + " v"  + D +
+    " h-" + d + " v"  + d + " h-" + D +
+    " v-" + d + " h-" + d + " v-" + D +
+    " h"  + d + " v-" + d + " Z";
     let ret = document.createElementNS(LDR.SVG.NS, 'path');
     ret.setAttribute('d', pts);
-    ret.setAttribute('fill', 'none');    
+    ret.setAttribute('fill', 'none');
     return ret;
 }
 
@@ -323,13 +362,13 @@ LDR.SVG.makeOffIcon = function(x, y, w) {
     let d = w/10;
     let D = w/2 - 2*d;
     let pts = "M" + (x-D-d) + " " + (y-D) +
-	" l"  + d + " -" + d + " l" + D + " " + D + " l" + D + " -" + D + " l" + d + " " + d + // Top 4 lines
-	" l-" + D + " " + D + " l" + D + " " + D + // Right 2 lines
-	" l-" + d + " " + d + " l-" + D + " -" + D + " l-" + D + " " + D + " l-" + d + " -" + d + // Lower 4 lines
-	" l" + D + " -" + D + " Z";
+    " l"  + d + " -" + d + " l" + D + " " + D + " l" + D + " -" + D + " l" + d + " " + d + // Top 4 lines
+    " l-" + D + " " + D + " l" + D + " " + D + // Right 2 lines
+    " l-" + d + " " + d + " l-" + D + " -" + D + " l-" + D + " " + D + " l-" + d + " -" + d + // Lower 4 lines
+    " l" + D + " -" + D + " Z";
     let ret = document.createElementNS(LDR.SVG.NS, 'path');
     ret.setAttribute('d', pts);
-    ret.setAttribute('fill', 'none');    
+    ret.setAttribute('fill', 'none');
     return ret;
 }
 
@@ -350,19 +389,19 @@ LDR.SVG.makeArrow = function(x1, y1, x2, y2, svg, includeBase) {
 LDR.SVG.makeBlock3D = function(x, y, parent) {
     let dx2 = 15, dy = 25, dy2 = dy*0.3;
 
-    let pts1 = 'M ' + x + ' ' + (y - dy/2 + dy2) + 
-	' l' + dx2 + ' -' + dy2 + 
-	' v' + dy + 
-	' l-' + dx2 + ' ' + dy2 + 
-	' l-' + dx2 + ' -' + dy2 + 
-	' v-' + dy + 
-	' l' + dx2 + ' ' + dy2 + 
-	' v' + dy +
-        ' M ' +(x-dx2) + ' ' + (y-dy/2) + 
-	' l' + dx2 + ' -' + dy2 + 
-	' l' + dx2 + ' ' + dy2 + 
-	' l-' + dx2 + ' ' + dy2 + 
-	' Z';
+    let pts1 = 'M ' + x + ' ' + (y - dy/2 + dy2) +
+    ' l' + dx2 + ' -' + dy2 +
+    ' v' + dy +
+    ' l-' + dx2 + ' ' + dy2 +
+    ' l-' + dx2 + ' -' + dy2 +
+    ' v-' + dy +
+    ' l' + dx2 + ' ' + dy2 +
+    ' v' + dy +
+        ' M ' +(x-dx2) + ' ' + (y-dy/2) +
+    ' l' + dx2 + ' -' + dy2 +
+    ' l' + dx2 + ' ' + dy2 +
+    ' l-' + dx2 + ' ' + dy2 +
+    ' Z';
     let p = document.createElementNS(LDR.SVG.NS, 'path');
     p.setAttribute('d', pts1);
 
@@ -377,13 +416,13 @@ LDR.SVG.makeEdit = function() {
     g.setAttribute('transform', 'matrix(0.6 0.5 -0.5 0.6 15 -15)');
     ret.appendChild(g);
     LDR.SVG.makePencil(6, 60, g);
-    
+
     let pts = "M10,-25 -20,-25 -20,25 20,25 20,-10";
     let p = document.createElementNS(LDR.SVG.NS, 'path');
     p.setAttribute('d', pts);
     ret.appendChild(p);
 
-    return ret;    
+    return ret;
 }
 
 LDR.SVG.makePencil = function(w, h, parent) {

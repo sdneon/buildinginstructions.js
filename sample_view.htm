@@ -15,16 +15,39 @@
     <!-- buildinginstructions.js core libraries. All required. -->
     <script src="js/colors.js"></script><script src="js/LDRShaders.js"></script><script src="js/LDRColorMaterials.js"></script><script src="js/LDRGeometries.js"></script><script src="js/LDRLoader.js"></script>
 
-    <!-- buildinginstructions.js optional libraries: Generator.js for quick creation of some primitives. Required for studs.js which can create customized studs. StudioTexmap.js allows for Studio 2.0-created files -->    
+    <!-- buildinginstructions.js optional libraries: Generator.js for quick creation of some primitives. Required for studs.js which can create customized studs. StudioTexmap.js allows for Studio 2.0-created files -->
     <script src="js/LDRGenerator.js"></script>
     <script src="js/LDRStuds.js"></script>
     <script src="js/StudioTexmap.js"></script>
 
     <script>
       let startTime = new Date();
-      
+
       let model = 'models/corvette_full.mpd'; // The model to be rendered:
       //let model = 'models/luminance.ldr';
+      if ('function' === typeof URL.parse)
+      {
+          let query = decodeURIComponent(URL.parse(window.location).searchParams.get('f'));
+          if (query != null)
+          {
+              model = query; //use file/model specified in URL
+          }
+      }
+      else
+      {
+          let query = window.location.search,
+              pos = query.indexOf('?f=');
+          if (pos < 0)
+          {
+              pos = query.indexOf('&f=');
+          }
+          if (pos >= 0)
+          {
+              let endPos = query.indexOf('&');
+              if (endPos < 0) endPos = query.length;
+              model = decodeURIComponent(query.substring(pos + 3, endPos));
+          }
+      }
 
       // Set up camera:
       let camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 1000000);
@@ -84,7 +107,7 @@
         camera.position.set(size, 0.7*size, size);
         camera.lookAt(new THREE.Vector3());
         camera.far = 2*size;
-	camera.zoom = 1.5*window.innerWidth/size;
+    camera.zoom = 1.5*window.innerWidth/size;
         onWindowResize();
 
         console.log("Model rendered in " + (new Date()-startTime) + "ms.");
